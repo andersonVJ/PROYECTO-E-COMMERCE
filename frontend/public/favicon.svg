@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Premium Golden Gradient -->
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF0A5" />
+      <stop offset="30%" stop-color="#D4AF37" />
+      <stop offset="70%" stop-color="#AA7C11" />
+      <stop offset="100%" stop-color="#FDF0A6" />
+    </linearGradient>
+    <radialGradient id="bg-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1F1F1F" />
+      <stop offset="100%" stop-color="#0F0F0F" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="250" cy="250" r="240" fill="url(#bg-grad)" stroke="url(#gold-grad)" stroke-width="10" />
+  <circle cx="250" cy="250" r="225" fill="none" stroke="url(#gold-grad)" stroke-width="3" stroke-dasharray="10, 5" />
+
+  <!-- Stars -->
+  <g fill="url(#gold-grad)">
+    <!-- Top central star -->
+    <path d="M250 50 L254 70 L274 74 L254 78 L250 98 L246 78 L226 74 L246 70 Z" />
+    <!-- Outer stars -->
+    <path d="M140 110 L142 120 L152 122 L142 124 L140 134 L138 124 L128 122 L138 120 Z" transform="scale(0.8) translate(50, 40)" />
+    <path d="M360 110 L362 120 L372 122 L362 124 L360 134 L358 124 L348 122 L358 120 Z" transform="scale(0.8) translate(50, 40)" />
+    <path d="M100 280 L101 285 L106 286 L101 287 L100 292 L99 287 L94 286 L99 285 Z" />
+    <path d="M400 260 L401 265 L406 266 L401 267 L400 272 L399 267 L394 266 L399 265 Z" />
+  </g>
+
+  <!-- The Golden Globe (Sphere with lines) -->
+  <g stroke="url(#gold-grad)" stroke-width="4" fill="none">
+    <circle cx="250" cy="220" r="100" fill="#0A0A0A" stroke-width="8" />
+    
+    <!-- Longitude/Vertical ellipses -->
+    <ellipse cx="250" cy="220" rx="70" ry="100" />
+    <ellipse cx="250" cy="220" rx="35" ry="100" />
+    <line x1="250" y1="120" x2="250" y2="320" />
+    
+    <!-- Latitude/Horizontal lines -->
+    <line x1="150" y1="220" x2="350" y2="220" />
+    <path d="M165 180 Q250 200 335 180" />
+    <path d="M165 260 Q250 240 335 260" />
+    <path d="M185 150 Q250 170 315 150" />
+    <path d="M185 290 Q250 270 315 290" />
+  </g>
+
+  <!-- Orbital Ring (Saturn ring effect) -->
+  <!-- Back of the ring (drawn behind the globe, simulated by mask or clip) -->
+  <!-- For simplicity and clean look, we draw a double orbital path with gradients -->
+  <g stroke="url(#gold-grad)" fill="none" stroke-width="12">
+    <!-- Outer ring arc -->
+    <path d="M70 230 C 50 280, 450 280, 430 230 C 420 205, 360 200, 310 205" />
+    <path d="M70 230 C 80 205, 140 200, 190 205" stroke-dasharray="5,5" opacity="0.3" />
+  </g>
+  <g stroke="url(#gold-grad)" fill="none" stroke-width="4">
+    <path d="M60 230 C 40 290, 460 290, 440 230" />
+  </g>
+
+  <!-- Brand Typography (URBAN GOLD) -->
+  <text x="250" y="380" 
+        font-family="'Outfit', 'Impact', 'Arial Black', sans-serif" 
+        font-size="44" 
+        font-weight="900" 
+        letter-spacing="2" 
+        fill="url(#gold-grad)" 
+        text-anchor="middle"
+        stroke="#000"
+        stroke-width="2">
+    URBAN GOLD
+  </text>
+  
+  <!-- Underline arc with stars -->
+  <path d="M160 410 Q250 440 340 410" fill="none" stroke="url(#gold-grad)" stroke-width="4" />
+  <g fill="url(#gold-grad)">
+    <polygon points="250,420 252,426 258,426 253,430 255,436 250,432 245,436 247,430 242,426 248,426" />
+    <polygon points="210,417 211.5,422 216.5,422 212.5,425 214,430 210,427 206,430 207.5,425 203.5,422 208.5,422" transform="scale(0.8) translate(50, 100)" />
+    <polygon points="290,417 291.5,422 296.5,422 292.5,425 294,430 290,427 286,430 287.5,425 283.5,422 288.5,422" transform="scale(0.8) translate(70, 100)" />
+  </g>
+</svg>
