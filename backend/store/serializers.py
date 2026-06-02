@@ -51,14 +51,49 @@ class ProductSerializer(serializers.ModelSerializer):
     inventory = InventorySerializer(read_only=True)
     discount_percent = serializers.IntegerField(read_only=True)
     has_discount = serializers.BooleanField(read_only=True)
+    
+    # Writable stock fields that delegate to the related Inventory model
+    stock_actual = serializers.IntegerField(write_only=True, required=False)
+    stock_min = serializers.IntegerField(write_only=True, required=False)
 
     class Meta:
         model = Product
         fields = [
             'id', 'name', 'sku', 'slug', 'category', 'category_id', 'description', 
             'price', 'discount_price', 'discount_percent', 'has_discount',
-            'is_active', 'is_featured', 'is_weekly_recommendation', 'images', 'inventory', 'created_at'
+            'is_active', 'is_featured', 'is_weekly_recommendation', 'images', 'inventory', 
+            'stock_actual', 'stock_min', 'created_at'
         ]
+
+    def create(self, validated_data):
+        stock_actual = validated_data.pop('stock_actual', 0)
+        stock_min = validated_data.pop('stock_min', 5)
+        product = Product.objects.create(**validated_data)
+        
+        # Create related inventory
+        Inventory.objects.create(
+            product=product,
+            stock_actual=stock_actual,
+            stock_min=stock_min
+        )
+        return product
+
+    def update(self, instance, validated_data):
+        stock_actual = validated_data.pop('stock_actual', None)
+        stock_min = validated_data.pop('stock_min', None)
+        
+        # Update product fields
+        instance = super().update(instance, validated_data)
+        
+        # Update related inventory
+        inventory, _ = Inventory.objects.get_or_create(product=instance)
+        if stock_actual is not None:
+            inventory.stock_actual = stock_actual
+        if stock_min is not None:
+            inventory.stock_min = stock_min
+        inventory.save()
+        
+        return instance
 
 # --- ORDER SERIALIZERS ---
 
