@@ -199,10 +199,31 @@ export default function AdminPanel() {
     e.preventDefault();
     try {
       await axios.patch(`http://127.0.0.1:8000/api/orders/${activeOrder.id}/`, orderForm);
+      
+      // WhatsApp message details
+      const phoneClean = activeOrder.customer_phone?.replace(/[^0-9]/g, '');
+      const textMessage = `Hola *${activeOrder.customer_name}*, te informamos que tu pedido *${activeOrder.order_number}* en *Urban Gold* ha cambiado al estado: *${orderForm.status}*${orderForm.tracking_number ? `. Tu número de guía es: *${orderForm.tracking_number}*` : ''}. ¡Muchas gracias por tu compra!`;
+      
+      // Open WhatsApp API window
+      window.open(`https://wa.me/${phoneClean}?text=${encodeURIComponent(textMessage)}`, '_blank');
+
       setOrderModalOpen(false);
       loadAdminData();
     } catch (err) {
       console.error('Failed to update order:', err);
+    }
+  };
+
+  const handleOrderDelete = async () => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar este pedido permanentemente? Esta acción es irreversible y restaurará el inventario correspondiente.')) {
+      try {
+        await axios.delete(`http://127.0.0.1:8000/api/orders/${activeOrder.id}/`);
+        setOrderModalOpen(false);
+        loadAdminData();
+      } catch (err) {
+        console.error('Failed to delete order:', err);
+        alert('Error al eliminar el pedido.');
+      }
     }
   };
 
@@ -786,6 +807,7 @@ export default function AdminPanel() {
               <div className="bg-black/20 p-4 rounded-xl border border-white/5 space-y-2 relative">
                 <h4 className="font-bold text-urbangold-gold text-xs uppercase tracking-wider">Detalles de Entrega</h4>
                 <p><span className="text-gray-500">Cliente:</span> {activeOrder.customer_name}</p>
+                <p><span className="text-gray-500">Correo:</span> {activeOrder.customer_email}</p>
                 <p><span className="text-gray-500">Teléfono:</span> {activeOrder.customer_phone}</p>
                 <p><span className="text-gray-500">Envío a:</span> {activeOrder.customer_address}, {activeOrder.customer_neighborhood}, {activeOrder.customer_city}</p>
                 <p><span className="text-gray-500">Método de pago:</span> {activeOrder.payment_method}</p>
@@ -862,9 +884,18 @@ export default function AdminPanel() {
                   />
                 </div>
 
-                <button type="submit" className="w-full py-3 btn-gold rounded-xl font-bold">
-                  Guardar Cambios del Pedido
-                </button>
+                <div className="flex gap-3 pt-2">
+                  <button 
+                    type="button" 
+                    onClick={handleOrderDelete}
+                    className="w-1/3 py-3 bg-red-600/10 hover:bg-red-600/30 text-red-500 hover:text-red-400 border border-red-500/20 hover:border-red-500/40 rounded-xl font-bold transition-all duration-300"
+                  >
+                    Eliminar
+                  </button>
+                  <button type="submit" className="w-2/3 py-3 btn-gold rounded-xl font-bold">
+                    Guardar Cambios
+                  </button>
+                </div>
               </form>
             </div>
           </div>

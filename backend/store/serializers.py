@@ -9,6 +9,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'first_name', 'last_name', 'phone', 'address', 'neighborhood', 'city', 'is_staff']
         read_only_fields = ['is_staff']
 
+    def update(self, instance, validated_data):
+        email = validated_data.get('email')
+        if email:
+            validated_data['username'] = email
+        return super().update(instance, validated_data)
+
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 

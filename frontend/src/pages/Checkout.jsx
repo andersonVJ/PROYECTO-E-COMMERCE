@@ -20,6 +20,7 @@ export default function Checkout() {
   const [shippingInfo, setShippingInfo] = useState({
     first_name: user?.first_name || '',
     last_name: user?.last_name || '',
+    email: user?.email || '',
     phone: user?.phone || '',
     address: user?.address || '',
     neighborhood: user?.neighborhood || '',
@@ -66,6 +67,7 @@ export default function Checkout() {
       await axios.patch('http://127.0.0.1:8000/api/auth/profile/', {
         first_name: shippingInfo.first_name,
         last_name: shippingInfo.last_name,
+        email: shippingInfo.email,
         phone: shippingInfo.phone,
         address: shippingInfo.address,
         neighborhood: shippingInfo.neighborhood,
@@ -190,6 +192,18 @@ export default function Checkout() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Correo Electrónico</label>
+                    <input 
+                      type="email" 
+                      name="email"
+                      required
+                      value={shippingInfo.email}
+                      onChange={handleInputChange}
+                      placeholder="ejemplo@correo.com"
+                      className="w-full px-4 py-2.5 bg-black/40 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-urbangold-gold text-white"
+                    />
+                  </div>
+                  <div>
                     <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Teléfono</label>
                     <input 
                       type="text" 
@@ -201,6 +215,9 @@ export default function Checkout() {
                       className="w-full px-4 py-2.5 bg-black/40 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-urbangold-gold text-white"
                     />
                   </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Ciudad</label>
                     <input 
@@ -213,21 +230,6 @@ export default function Checkout() {
                       className="w-full px-4 py-2.5 bg-black/40 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-urbangold-gold text-white"
                     />
                   </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Dirección Completa</label>
-                    <input 
-                      type="text" 
-                      name="address"
-                      required
-                      value={shippingInfo.address}
-                      onChange={handleInputChange}
-                      placeholder="Calle, Carrera, Apto, Unidad..."
-                      className="w-full px-4 py-2.5 bg-black/40 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-urbangold-gold text-white"
-                    />
-                  </div>
                   <div>
                     <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Barrio / Comuna</label>
                     <input 
@@ -236,9 +238,23 @@ export default function Checkout() {
                       required
                       value={shippingInfo.neighborhood}
                       onChange={handleInputChange}
+                      placeholder="Ej: El Poblado"
                       className="w-full px-4 py-2.5 bg-black/40 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-urbangold-gold text-white"
                     />
                   </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Dirección Completa</label>
+                  <input 
+                    type="text" 
+                    name="address"
+                    required
+                    value={shippingInfo.address}
+                    onChange={handleInputChange}
+                    placeholder="Calle, Carrera, Apto, Unidad..."
+                    className="w-full px-4 py-2.5 bg-black/40 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-urbangold-gold text-white"
+                  />
                 </div>
 
                 <div>
